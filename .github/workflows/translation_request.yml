@@ -50,9 +50,10 @@ jobs:
           UNIQUE_ID="${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
 
           TODO_FILENAME=translations/todo/todo_list_${UNIQUE_ID}.txt
+          echo "File: $TODO_FILENAME"
 
           # Write the keys, repository, branch, target languages, and English strings to the to-do file
-          echo "Repository: $SOURCE_REPO" > ${TODO_FILENAME}
+          echo "Repository: $SOURCE_REPO" >> ${TODO_FILENAME}
           echo "Branch: $SOURCE_BRANCH" >> ${TODO_FILENAME}
           echo "Target Languages: $TARGET_LANGUAGES" >> ${TODO_FILENAME}
           echo "Keys needing translation and their English values:" >> ${TODO_FILENAME}
