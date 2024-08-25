@@ -63,6 +63,7 @@ jobs:
 
       - name: Commit and Push To-Do File
         run: |
+          echo "TODO_FILENAME: $TODO_FILENAME"
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add $TODO_FILENAME
