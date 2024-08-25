@@ -35,9 +35,9 @@ jobs:
           echo "$TARGET_LANGUAGES"
 
           echo "KEYS_MAP=${KEYS_MAP}" >> $GITHUB_ENV
-          echo "$SOURCE_REPO=${SOURCE_REPO}" >> GITHUB_ENV
-          echo "$SOURCE_BRANCH=${SOURCE_BRANCH}" >> GITHUB_ENV
-          echo "$TARGET_LANGUAGES=${TARGET_LANGUAGES}" >> GITHUB_ENV
+          echo "SOURCE_REPO=${SOURCE_REPO}" >> GITHUB_ENV
+          echo "SOURCE_BRANCH=${SOURCE_BRANCH}" >> GITHUB_ENV
+          echo "TARGET_LANGUAGES=${TARGET_LANGUAGES}" >> GITHUB_ENV
 
       - name: Set variables from client_payload
         if: github.event_name == 'repository_dispatch'
@@ -55,9 +55,9 @@ jobs:
           echo "$TARGET_LANGUAGES"
 
           echo "KEYS_MAP=${KEYS_MAP}" >> $GITHUB_ENV
-          echo "$SOURCE_REPO=${SOURCE_REPO}" >> GITHUB_ENV
-          echo "$SOURCE_BRANCH=${SOURCE_BRANCH}" >> GITHUB_ENV
-          echo "$TARGET_LANGUAGES=${TARGET_LANGUAGES}" >> GITHUB_ENV
+          echo "SOURCE_REPO=${SOURCE_REPO}" >> GITHUB_ENV
+          echo "SOURCE_BRANCH=${SOURCE_BRANCH}" >> GITHUB_ENV
+          echo "TARGET_LANGUAGES=${TARGET_LANGUAGES}" >> GITHUB_ENV
 
       - name: Create To-Do File for Translators
         run: |
