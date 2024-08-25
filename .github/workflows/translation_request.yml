@@ -48,20 +48,20 @@ jobs:
           # Create a todo directory if it doesn't exist
           mkdir -p translations/todo
 
-          echo "File: $TODO_FILENAME"
+          echo "File: $TODO_FILEPATH"
 
           # Write the keys, repository, branch, target languages, and English strings to the to-do file
-          echo "Repository: $SOURCE_REPO" >> $TODO_FILENAME
-          echo "Branch: $SOURCE_BRANCH" >> $TODO_FILENAME
-          echo "Target Languages: $TARGET_LANGUAGES" >> $TODO_FILENAME
-          echo "Keys needing translation and their English values:" >> $TODO_FILENAME
+          echo "Repository: $SOURCE_REPO" >> $TODO_FILEPATH
+          echo "Branch: $SOURCE_BRANCH" >> $TODO_FILEPATH
+          echo "Target Languages: $TARGET_LANGUAGES" >> $TODO_FILEPATH
+          echo "Keys needing translation and their English values:" >> $TODO_FILEPATH
 
           # Iterate over the JSON map and print each key with its corresponding English value
-          echo "$KEYS_MAP" | jq -r 'to_entries[] | "- \(.key): \(.value)"' >> ${TODO_FILENAME}
+          echo "$KEYS_MAP" | jq -r 'to_entries[] | "- \(.key): \(.value)"' >> ${TODO_FILEPATH}
 
       - name: Commit and Push To-Do File
         run: |
-          echo "TODO_FILENAME: $TODO_FILENAME"
+          echo "TODO_FILEPATH: $TODO_FILEPATH"
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add $TODO_FILENAME
