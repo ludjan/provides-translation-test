@@ -8,9 +8,15 @@ on:
 jobs:
   handle-translation-task:
     runs-on: ubuntu-latest
-    env: 
-      TODO_FILEPATH: translations/todo/todo_list_${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}.txt
     steps:
+      - name: Set Up Dynamic Environment Variables
+        id: setup
+        run: |
+          # Generate the dynamic file path
+          TODO_FILEPATH="translations/todo/todo_list_${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}.txt"
+          # Export the file path to environment
+          echo "TODO_FILEPATH=${TODO_FILEPATH}" >> $GITHUB_ENV
+    
       - name: Checkout the repository
         uses: actions/checkout@v4
 
@@ -64,6 +70,6 @@ jobs:
           echo "TODO_FILEPATH: $TODO_FILEPATH"
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add $TODO_FILENAME
+          git add $TODO_FILEPATH
           git commit -m "Add translation to-do list for $SOURCE_REPO ($SOURCE_BRANCH)"
           git push origin HEAD
