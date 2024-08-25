@@ -1,0 +1,40 @@
+name: Handle Translation Request
+
+on:
+  repository_dispatch:
+    types: [create_translation_task]
+
+jobs:
+  handle-translation-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.17
+
+      - name: Create To-Do File for Translators
+        run: |
+          # Extract the data from the repository_dispatch payload
+          KEYS="${{ github.event.client_payload.keys }}"
+          SOURCE_REPO="${{ github.event.client_payload.repository }}"
+          SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
+
+          # Create a todo directory if it doesn't exist
+          mkdir -p translations/todo
+
+          # Write the keys, repository, and branch to the to-do file
+          echo "Repository: $SOURCE_REPO" > translations/todo/todo_list.txt
+          echo "Branch: $SOURCE_BRANCH" >> translations/todo/todo_list.txt
+          echo "Keys needing translation:" >> translations/todo/todo_list.txt
+          for KEY in ${KEYS//,/ }
+          do
+            echo "- $KEY" >> translations/todo/todo_list.txt
+          done
+
+      - name: Commit and Push To-Do File
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add translations/todo/todo_list.txt
+          git commit -m "Add translation to-do list for $SOURCE_REPO ($SOURCE_BRANCH)"
+          git push origin HEAD
