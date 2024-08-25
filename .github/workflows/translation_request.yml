@@ -8,7 +8,8 @@ on:
 jobs:
   handle-translation-task:
     runs-on: ubuntu-latest
-
+    env: 
+      TODO_FILEPATH: translations/todo/todo_list_${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}.txt
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -47,9 +48,6 @@ jobs:
           # Create a todo directory if it doesn't exist
           mkdir -p translations/todo
 
-          UNIQUE_ID="${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
-
-          TODO_FILENAME=translations/todo/todo_list_${UNIQUE_ID}.txt
           echo "File: $TODO_FILENAME"
 
           # Write the keys, repository, branch, target languages, and English strings to the to-do file
