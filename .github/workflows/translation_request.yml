@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [create_translation_task]
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   handle-translation-task:
@@ -21,12 +24,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set variables on workflow dispatch
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         run: |
           KEYS_MAP=$(echo '{"testKey": "testValue"}' | jq -c .)
-          SOURCE_REPO="test-repo"
-          SOURCE_BRANCH="test-source-branch"
-          TARGET_LANGUAGES="test-target-langauges"
+          SOURCE_REPO=echo "test-repo"
+          SOURCE_BRANCH=echo "test-source-branch"
+          TARGET_LANGUAGES=${echo "test-target-langauges"}
           
           echo "Set variables on workflow dispatch"
           echo "$KEYS_MAP"
