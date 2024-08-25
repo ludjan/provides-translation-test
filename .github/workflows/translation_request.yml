@@ -15,15 +15,13 @@ jobs:
       - name: Set Up Dynamic Environment Variables
         id: setup
         run: |
-          # Generate the dynamic file path
           TODO_FILEPATH="translations/todo/todo_list_${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}.txt"
-          # Export the file path to environment
           echo "TODO_FILEPATH=${TODO_FILEPATH}" >> $GITHUB_ENV
     
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Set variables on workflow dispatch
+      - name: Set variables with some test defaults
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         run: |
           KEYS_MAP=$(echo '{"testKey": "testValue"}' | jq -c .)
@@ -33,16 +31,11 @@ jobs:
           echo "SOURCE_BRANCH=test-source-branch" >> $GITHUB_ENV
           echo "TARGET_LANGUAGES=test-target-languages" >> $GITHUB_ENV
 
-          echo "Set variables on workflow dispatch"
+          echo "Set variables on with some test defaults"
 
       - name: Set variables from client_payload
         if: github.event_name == 'repository_dispatch'
         run: | 
-          # KEYS_MAP="${{ github.event.client_payload.keys }}"
-          # SOURCE_REPO="${{ github.event.client_payload.repository }}"
-          # SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
-          # TARGET_LANGUAGES="${{ github.event.client_payload.target_languages }}"
-
           echo "KEYS_MAP=${{ github.event.client_payload.keys }}" >> $GITHUB_ENV
           echo "SOURCE_REPO=${{ github.event.client_payload.repository }}" >> $GITHUB_ENV
           echo "SOURCE_BRANCH=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
