@@ -15,11 +15,10 @@ jobs:
       - name: Create To-Do File for Translators
         run: |
           # Extract the data from the repository_dispatch payload
-          KEYS="${{ github.event.client_payload.keys }}"
+          KEYS_MAP="${{ github.event.client_payload.keys }}"
           SOURCE_REPO="${{ github.event.client_payload.repository }}"
           SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
           TARGET_LANGUAGES="${{ github.event.client_payload.target_languages }}"
-          EN_STRINGS="${{ github.event.client_payload.en_strings }}"
 
           # Create a todo directory if it doesn't exist
           mkdir -p translations/todo
@@ -30,12 +29,8 @@ jobs:
           echo "Target Languages: $TARGET_LANGUAGES" >> translations/todo/todo_list.txt
           echo "Keys needing translation and their English values:" >> translations/todo/todo_list.txt
 
-          IFS=',' read -ra KEYS_ARRAY <<< "$KEYS"
-          IFS=',' read -ra EN_STRINGS_ARRAY <<< "$EN_STRINGS"
-
-          for i in "${!KEYS_ARRAY[@]}"; do
-            echo "- ${KEYS_ARRAY[$i]}: ${EN_STRINGS_ARRAY[$i]}" >> translations/todo/todo_list.txt
-          done
+          # Iterate over the JSON map and print each key with its corresponding English value
+          echo "$KEYS_MAP" | jq -r 'to_entries[] | "- \(.key): \(.value)"' >> translations/todo/todo_list.txt
 
       - name: Commit and Push To-Do File
         run: |
