@@ -65,6 +65,10 @@ jobs:
           mkdir -p translations/todo
 
           echo "File: $TODO_FILEPATH"
+          echo "$KEYS_MAP"
+          echo "$SOURCE_REPO"
+          echo "$SOURCE_BRANCH"
+          echo "$TARGET_LANGUAGES"
 
           # Write the keys, repository, branch, target languages, and English strings to the to-do file
           echo "Repository: $SOURCE_REPO" >> $TODO_FILEPATH
@@ -74,6 +78,8 @@ jobs:
 
           # Iterate over the JSON map and print each key with its corresponding English value
           echo "$KEYS_MAP" | jq -r 'to_entries[] | "- \(.key): \(.value)"' >> ${TODO_FILEPATH}
+
+          cat $TODO_FILEPATH
 
       - name: Commit and Push To-Do File
         run: |
