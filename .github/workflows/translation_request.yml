@@ -38,15 +38,15 @@ jobs:
       - name: Set variables from client_payload
         if: github.event_name == 'repository_dispatch'
         run: | 
-          KEYS_MAP="${{ github.event.client_payload.keys }}"
-          SOURCE_REPO="${{ github.event.client_payload.repository }}"
-          SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
-          TARGET_LANGUAGES="${{ github.event.client_payload.target_languages }}"
+          # KEYS_MAP="${{ github.event.client_payload.keys }}"
+          # SOURCE_REPO="${{ github.event.client_payload.repository }}"
+          # SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
+          # TARGET_LANGUAGES="${{ github.event.client_payload.target_languages }}"
 
-          echo "KEYS_MAP=${KEYS_MAP}" >> $GITHUB_ENV
-          echo "SOURCE_REPO=${SOURCE_REPO}" >> $GITHUB_ENV
-          echo "SOURCE_BRANCH=${SOURCE_BRANCH}" >> $GITHUB_ENV
-          echo "TARGET_LANGUAGES=${TARGET_LANGUAGES}" >> $GITHUB_ENV
+          echo "KEYS_MAP=${{ github.event.client_payload.keys }}" >> $GITHUB_ENV
+          echo "SOURCE_REPO=${{ github.event.client_payload.repository }}" >> $GITHUB_ENV
+          echo "SOURCE_BRANCH=${{ github.event.client_payload.branch }}" >> $GITHUB_ENV
+          echo "TARGET_LANGUAGES=${{ github.event.client_payload.target_languages }}" >> $GITHUB_ENV
 
           echo "Set variables from client_payload"
 
