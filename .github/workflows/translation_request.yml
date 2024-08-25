@@ -3,6 +3,7 @@ name: Handle Translation Request
 on:
   repository_dispatch:
     types: [create_translation_task]
+  workflow_dispatch:
 
 jobs:
   handle-translation-task:
@@ -12,14 +13,26 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4.17
 
-      - name: Create To-Do File for Translators
+      - name: Set variables on workflow dispatch
+        if: github.event_name == 'workflow_dispatch'
         run: |
+          KEYS_MAP=$(echo '{"testKey": "testValue"}' | jq -c .)
+          SOURCE_REPO="test-repo"
+          SOURCE_BRANCH="test-source-branch"
+          TARGET_LANGUAGES="test-target-langauges"
+          echo "Set variables on workflow dispatch"
+
+      - name: Set variables from client_payload
+        if: github.event_name == 'repository_dispatch'
+        run: | 
           # Extract the data from the repository_dispatch payload
           KEYS_MAP="${{ github.event.client_payload.keys }}"
           SOURCE_REPO="${{ github.event.client_payload.repository }}"
           SOURCE_BRANCH="${{ github.event.client_payload.branch }}"
           TARGET_LANGUAGES="${{ github.event.client_payload.target_languages }}"
 
+      - name: Create To-Do File for Translators
+        run: |
           # Create a todo directory if it doesn't exist
           mkdir -p translations/todo
 
