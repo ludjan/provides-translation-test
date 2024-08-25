@@ -53,10 +53,10 @@ jobs:
           echo "File: $TODO_FILENAME"
 
           # Write the keys, repository, branch, target languages, and English strings to the to-do file
-          echo "Repository: $SOURCE_REPO" >> ${TODO_FILENAME}
-          echo "Branch: $SOURCE_BRANCH" >> ${TODO_FILENAME}
-          echo "Target Languages: $TARGET_LANGUAGES" >> ${TODO_FILENAME}
-          echo "Keys needing translation and their English values:" >> ${TODO_FILENAME}
+          echo "Repository: $SOURCE_REPO" >> $TODO_FILENAME
+          echo "Branch: $SOURCE_BRANCH" >> $TODO_FILENAME
+          echo "Target Languages: $TARGET_LANGUAGES" >> $TODO_FILENAME
+          echo "Keys needing translation and their English values:" >> $TODO_FILENAME
 
           # Iterate over the JSON map and print each key with its corresponding English value
           echo "$KEYS_MAP" | jq -r 'to_entries[] | "- \(.key): \(.value)"' >> ${TODO_FILENAME}
@@ -65,6 +65,6 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add ${TODO_FILENAME}
+          git add $TODO_FILENAME
           git commit -m "Add translation to-do list for $SOURCE_REPO ($SOURCE_BRANCH)"
           git push origin HEAD
