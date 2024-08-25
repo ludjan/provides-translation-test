@@ -1,0 +1,5 @@
+Repository: test-repo
+Branch: test-source-branch
+Target Languages: test-target-languages
+Keys needing translation and their English values:
+- testKey: testValue
