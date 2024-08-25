@@ -27,8 +27,8 @@ jobs:
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         run: |
           KEYS_MAP=$(echo '{"testKey": "testValue"}' | jq -c .)
-          SOURCE_REPO=echo "test-repo"
-          SOURCE_BRANCH=echo "test-source-branch"
+          SOURCE_REPO=test-repo
+          SOURCE_BRANCH="test-source-branch"
           TARGET_LANGUAGES=${echo "test-target-langauges"}
           
           echo "Set variables on workflow dispatch"
